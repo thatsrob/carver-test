@@ -68,6 +68,7 @@ body.carver-home img {
 	left: 0;
 	right: 0;
 	z-index: 1000;
+	overflow: visible;
 	background-color: var(--carver-header-bg) !important;
 	-webkit-backdrop-filter: blur(6px);
 	backdrop-filter: blur(6px);
@@ -75,15 +76,18 @@ body.carver-home img {
 }
 
 .carver-header__inner {
-	width: 98%;
-	max-width: 1140px;
-	margin: 0 auto;
+	width: 100%;
+	max-width: none;
+	margin: 0;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 	flex-wrap: nowrap;
-	padding: calc(1.35rem * 1.25 * 1.25 + 0.35rem) 0;
+	padding: calc(1.35rem * 1.25 * 1.25 + 0.35rem) clamp(0.65rem, 2vw, 1.125rem);
 	transition: padding 0.28s ease;
+	perspective: 1400px;
+	perspective-origin: 50% 0%;
+	transform-style: preserve-3d;
 }
 
 @media (min-width: 981px) {
@@ -128,6 +132,8 @@ body.carver-home img {
 
 .carver-logo {
 	flex-shrink: 0;
+	transform: translateZ(0);
+	transform-style: preserve-3d;
 }
 
 .carver-logo img {
@@ -154,6 +160,8 @@ body.carver-home img {
 
 .carver-nav li {
 	position: relative;
+	transform: translateZ(0);
+	transform-style: preserve-3d;
 }
 
 .carver-nav > ul > li > a {
@@ -180,12 +188,15 @@ body.carver-home img {
 	left: 0;
 	top: 100%;
 	min-width: 240px;
-	background: #fff;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-	padding: 0.5rem 0;
+	background: rgba(0, 0, 0, 0.82);
+	border-top: 2px solid var(--carver-lime);
+	box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+	padding: 1rem 0;
 	margin: 0;
 	list-style: none;
 	z-index: 10;
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
 }
 
 .carver-nav li:hover > .sub-menu {
@@ -194,15 +205,15 @@ body.carver-home img {
 
 .carver-nav .sub-menu a {
 	display: block;
-	padding: 0.4rem 1rem;
-	color: var(--carver-navy) !important;
+	padding: 0.8rem 2rem;
+	color: #fff !important;
 	font-size: 15px;
 	text-decoration: none;
 }
 
 .carver-nav .sub-menu a:hover {
-	color: var(--carver-teal) !important;
-	background: rgba(2, 55, 80, 0.06);
+	color: var(--carver-lime) !important;
+	background: rgba(255, 255, 255, 0.08);
 }
 
 .carver-header__tel a {
@@ -241,7 +252,7 @@ body.carver-home img {
 
 /* Shorter bar + smaller type when scrolled (toggled via JS: .is-compact) */
 .carver-header.is-compact .carver-header__inner {
-	padding: calc(0.65rem * 1.5) 0;
+	padding: calc(0.65rem * 1.5 * 1.25) clamp(0.65rem, 2vw, 1.125rem);
 }
 
 .carver-header.is-compact .carver-header__left {
@@ -272,6 +283,71 @@ body.carver-home img {
 	gap: 0.2rem 0.95rem;
 }
 
+/* Downward cube hinge + fade: rotate only (no translate/scale) so layout position stays fixed */
+@keyframes carver-header-cube-panel {
+	0% {
+		transform: perspective(1100px) rotateX(-90deg);
+		transform-origin: 50% 0;
+		opacity: 0;
+	}
+
+	40% {
+		opacity: 1;
+	}
+
+	100% {
+		transform: perspective(1100px) rotateX(0deg);
+		transform-origin: 50% 0;
+		opacity: 1;
+	}
+}
+
+/* Upward cube hinge + fade when returning to full bar (triggered via .carver-header--play-expand-cube) */
+@keyframes carver-header-cube-panel-up {
+	0% {
+		transform: perspective(1100px) rotateX(90deg);
+		transform-origin: 50% 0;
+		opacity: 0;
+	}
+
+	40% {
+		opacity: 1;
+	}
+
+	100% {
+		transform: perspective(1100px) rotateX(0deg);
+		transform-origin: 50% 0;
+		opacity: 1;
+	}
+}
+
+.carver-header.is-compact:not(.carver-header--suppress-compact-cube) .carver-logo,
+.carver-header.is-compact:not(.carver-header--suppress-compact-cube) .carver-nav > ul > li,
+.carver-header.is-compact:not(.carver-header--suppress-compact-cube) .carver-header__tel,
+.carver-header.is-compact:not(.carver-header--suppress-compact-cube) .carver-header__cta {
+	animation: carver-header-cube-panel 0.75s cubic-bezier(0.33, 0.84, 0.42, 1) backwards;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.carver-header:not(.is-compact).carver-header--play-expand-cube .carver-logo,
+.carver-header:not(.is-compact).carver-header--play-expand-cube .carver-nav > ul > li,
+.carver-header:not(.is-compact).carver-header--play-expand-cube .carver-header__tel,
+.carver-header:not(.is-compact).carver-header--play-expand-cube .carver-header__cta {
+	animation: carver-header-cube-panel-up 0.75s cubic-bezier(0.33, 0.84, 0.42, 1) backwards;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.carver-header .carver-logo,
+	.carver-header .carver-nav > ul > li,
+	.carver-header .carver-header__tel,
+	.carver-header .carver-header__cta {
+		animation: none !important;
+	}
+}
+
 .carver-btn--header:hover {
 	filter: brightness(1.07);
 	color: #1a1a1a !important;
@@ -281,11 +357,11 @@ body.carver-home img {
 	.carver-header__inner {
 		flex-wrap: wrap;
 		row-gap: 0.5rem;
-		padding: calc(0.85rem * 1.25 * 1.25 + 0.3rem) 0;
+		padding: calc(0.85rem * 1.25 * 1.25 + 0.3rem) clamp(0.5rem, 3vw, 1rem);
 	}
 
 	.carver-header.is-compact .carver-header__inner {
-		padding: calc(0.55rem * 1.5) 0;
+		padding: calc(0.55rem * 1.5 * 1.25) clamp(0.5rem, 3vw, 1rem);
 		row-gap: calc(0.4rem * 1.5);
 	}
 
@@ -361,7 +437,7 @@ body.carver-home img {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.4);
 	pointer-events: none;
 	z-index: 0;
 }
@@ -739,7 +815,7 @@ body.carver-home img {
 
 .carver-practice h2 {
 	font-family: "Josefin Sans", Helvetica, Arial, Lucida, sans-serif;
-	font-weight: 300;
+	font-weight: 700;
 	text-transform: uppercase;
 	text-align: center;
 	margin: 3rem 0 2rem;

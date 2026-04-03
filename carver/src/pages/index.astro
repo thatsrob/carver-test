@@ -453,10 +453,27 @@ const U = "/carver/wp-content/uploads";
 				var hdr = document.getElementById("carver-header");
 				if (!hdr) return;
 				var compactThreshold = 20;
+				var yInit = window.scrollY || document.documentElement.scrollTop;
+				var prevCompact = yInit > compactThreshold;
+				var suppressCompactCube = yInit > compactThreshold;
 				function syncHeaderScroll() {
 					var y = window.scrollY || document.documentElement.scrollTop;
-					hdr.classList.toggle("is-compact", y > compactThreshold);
+					var compact = y > compactThreshold;
+					hdr.classList.toggle("is-compact", compact);
+					if (suppressCompactCube) {
+						suppressCompactCube = false;
+						hdr.classList.remove("carver-header--suppress-compact-cube");
+					}
+					if (prevCompact && !compact) {
+						hdr.classList.add("carver-header--play-expand-cube");
+						window.clearTimeout(hdr._expandCubeT);
+						hdr._expandCubeT = window.setTimeout(function () {
+							hdr.classList.remove("carver-header--play-expand-cube");
+						}, 900);
+					}
+					prevCompact = compact;
 				}
+				if (suppressCompactCube) hdr.classList.add("carver-header--suppress-compact-cube");
 				syncHeaderScroll();
 				window.addEventListener("scroll", syncHeaderScroll, { passive: true });
 			})();
