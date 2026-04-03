@@ -40,7 +40,7 @@ const U = "/carver/wp-content/uploads";
 				<div class="carver-header__inner">
 					<div class="carver-header__left">
 						<a class="carver-logo" href="/" aria-label="Carver & Associates home">
-							<img src={`${U}/2021/02/Carver-associates-logo.png`} width="150" height="41" alt="Carver associates logo" />
+							<img src={`${U}/2021/02/Carver-associates-logo.png`} width="210" height="57" alt="Carver associates logo" />
 						</a>
 						<nav class="carver-nav" id="carver-nav" aria-label="Main">
 							<ul>
@@ -71,9 +71,6 @@ const U = "/carver/wp-content/uploads";
 						<div class="carver-header__cta">
 							<a class="carver-btn--header" href="https://gocarverllc.com/contact/">Free consultation</a>
 						</div>
-						<button type="button" class="carver-header__toggle" aria-expanded="false" aria-controls="carver-nav" id="carver-menu-btn">
-							Menu
-						</button>
 					</div>
 				</div>
 			</header>
@@ -453,15 +450,8 @@ const U = "/carver/wp-content/uploads";
 
 		<script is:inline>
 			(function () {
-				var btn = document.getElementById("carver-menu-btn");
 				var hdr = document.getElementById("carver-header");
 				if (!hdr) return;
-				if (btn) {
-					btn.addEventListener("click", function () {
-						var open = hdr.classList.toggle("is-open");
-						btn.setAttribute("aria-expanded", open ? "true" : "false");
-					});
-				}
 				var compactThreshold = 20;
 				function syncHeaderScroll() {
 					var y = window.scrollY || document.documentElement.scrollTop;
