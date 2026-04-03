@@ -83,7 +83,7 @@ body.carver-home img {
 	align-items: center;
 	justify-content: flex-start;
 	flex-wrap: nowrap;
-	padding: calc(1.35rem * 1.25 * 1.25 + 0.35rem) clamp(0.65rem, 2vw, 1.125rem);
+	padding: calc((1.35rem * 1.25 * 1.25 + 0.35rem) * 0.8) clamp(0.65rem, 2vw, 1.125rem);
 	transition: padding 0.28s ease;
 	perspective: 1400px;
 	perspective-origin: 50% 0%;
@@ -253,6 +253,12 @@ body.carver-home img {
 /* Shorter bar + smaller type when scrolled (toggled via JS: .is-compact) */
 .carver-header.is-compact .carver-header__inner {
 	padding: calc(0.65rem * 1.5 * 1.25) clamp(0.65rem, 2vw, 1.125rem);
+}
+
+@media (min-width: 981px) {
+	.carver-header.is-compact .carver-header__inner {
+		padding: calc(0.65rem * 1.5 * 1.25 * 0.8) clamp(0.65rem, 2vw, 1.125rem);
+	}
 }
 
 .carver-header.is-compact .carver-header__left {
@@ -505,7 +511,7 @@ body.carver-home img {
 .carver-hero__tagline-inner {
 	font-family: "Benne Regular", Georgia, serif;
 	font-weight: 600;
-	font-size: clamp(2.2rem, 4.55vw, 4.65rem);
+	font-size: clamp(calc(2.2rem * 0.85), calc(4.55vw * 0.85), calc(4.65rem * 0.85));
 	letter-spacing: 0.02em;
 	line-height: 1.05;
 	color: #fff !important;
