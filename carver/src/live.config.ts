@@ -1,13 +1,19 @@
 /**
  * EmDash Live Content Collections
  *
- * Defines the _emdash collection that handles all content types from the database.
- * Query specific types using getEmDashCollection() and getEmDashEntry().
+ * On Cloudflare Pages (`CF_PAGES=1`), collections are empty — EmDash admin/API require Node + SQLite.
  */
 
 import { defineLiveCollection } from "astro:content";
-import { emdashLoader } from "emdash/runtime";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 
-export const collections = {
-	_emdash: defineLiveCollection({ loader: emdashLoader() }),
-};
+const isCfPages = process.env.CF_PAGES === "1";
+
+export const collections = isCfPages
+	? {}
+	: {
+			_emdash: defineLiveCollection({
+				loader: createRequire(fileURLToPath(import.meta.url))("emdash/runtime").emdashLoader(),
+			}),
+		};
