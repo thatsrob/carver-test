@@ -35,19 +35,32 @@ const U = "/carver/wp-content/uploads";
 		<meta property="og:image" content={`https://gocarverllc.com${U}/2021/02/Carver-law-hero-background.jpg`} />
 	</head>
 	<body class="carver-home">
-		<div class="carver-wrap">
-			<header class="carver-header" id="carver-header">
+		<header class="carver-header" id="carver-header">
 				<div class="carver-header__inner">
 					<div class="carver-header__left">
 						<a class="carver-logo" href="/" aria-label="Carver & Associates home">
 							<img src={`${U}/2021/02/Carver-associates-logo.png`} width="210" height="57" alt="Carver associates logo" />
 						</a>
+						<button
+							type="button"
+							class="carver-nav__toggle"
+							id="carver-nav-toggle"
+							aria-expanded="false"
+							aria-controls="carver-nav"
+							aria-label="Open menu"
+						>
+							<i class="fa fa-bars carver-nav__toggle-icon carver-nav__toggle-icon--open" aria-hidden="true"></i>
+							<i class="fa fa-times carver-nav__toggle-icon carver-nav__toggle-icon--close" aria-hidden="true"></i>
+						</button>
 						<nav class="carver-nav" id="carver-nav" aria-label="Main">
 							<ul>
 								<li><a href="/" aria-current="page">Home</a></li>
 								<li><a href="https://gocarverllc.com/thomas-carver/">About</a></li>
-								<li>
-									<a href="https://gocarverllc.com/criminal-lawyer-springfield-mo/">Practice Areas</a>
+								<li class="carver-nav__item--has-sub">
+									<a href="https://gocarverllc.com/criminal-lawyer-springfield-mo/">
+										Practice Areas
+										<i class="fa fa-chevron-down carver-nav__caret" aria-hidden="true"></i>
+									</a>
 									<ul class="sub-menu">
 										<li><a href="https://gocarverllc.com/federal-criminal-lawyer/">Federal Criminal</a></li>
 										<li><a href="https://gocarverllc.com/sex-crime-lawyer/">Sex Crimes</a></li>
@@ -73,8 +86,9 @@ const U = "/carver/wp-content/uploads";
 						</div>
 					</div>
 				</div>
-			</header>
+		</header>
 
+		<div class="carver-wrap">
 			<main id="main">
 				<section class="carver-hero" aria-label="Hero" aria-labelledby="hero-trust-kicker">
 					<div class="carver-hero__upper">
@@ -458,7 +472,8 @@ const U = "/carver/wp-content/uploads";
 				var suppressCompactCube = yInit > compactThreshold;
 				function syncHeaderScroll() {
 					var y = window.scrollY || document.documentElement.scrollTop;
-					var compact = y > compactThreshold;
+					var isMobile = window.innerWidth <= 767;
+					var compact = isMobile ? true : y > compactThreshold;
 					hdr.classList.toggle("is-compact", compact);
 					if (suppressCompactCube) {
 						suppressCompactCube = false;
@@ -476,6 +491,72 @@ const U = "/carver/wp-content/uploads";
 				if (suppressCompactCube) hdr.classList.add("carver-header--suppress-compact-cube");
 				syncHeaderScroll();
 				window.addEventListener("scroll", syncHeaderScroll, { passive: true });
+				window.addEventListener("resize", syncHeaderScroll, { passive: true });
+			})();
+		</script>
+		<script is:inline>
+			(function () {
+				var hdr = document.getElementById("carver-header");
+				var nav = document.getElementById("carver-nav");
+				var toggle = document.getElementById("carver-nav-toggle");
+				if (!hdr || !nav || !toggle) return;
+
+				var mq = window.matchMedia("(max-width: 767px)");
+
+				function setNavOpen(open) {
+					hdr.classList.toggle("is-nav-open", open);
+					toggle.setAttribute("aria-expanded", open ? "true" : "false");
+					toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+					document.body.style.overflow = open ? "hidden" : "";
+				}
+
+				function closeNav() {
+					setNavOpen(false);
+					nav.querySelectorAll("li.is-submenu-open").forEach(function (li) {
+						li.classList.remove("is-submenu-open");
+					});
+				}
+
+				toggle.addEventListener("click", function () {
+					if (!mq.matches) return;
+					setNavOpen(!hdr.classList.contains("is-nav-open"));
+				});
+
+				var submenuParents = nav.querySelectorAll(".carver-nav__item--has-sub > a");
+				submenuParents.forEach(function (a) {
+					a.addEventListener("click", function (e) {
+						if (!mq.matches) return;
+						e.preventDefault();
+						var li = a.parentElement;
+						if (li) li.classList.toggle("is-submenu-open");
+					});
+				});
+
+				nav.querySelectorAll("a").forEach(function (a) {
+					a.addEventListener("click", function () {
+						if (!mq.matches) return;
+						if (a.matches(".carver-nav__item--has-sub > a")) return;
+						closeNav();
+					});
+				});
+
+				document.addEventListener("keydown", function (e) {
+					if (e.key === "Escape" && hdr.classList.contains("is-nav-open")) closeNav();
+				});
+
+				mq.addEventListener("change", function () {
+					if (!mq.matches) {
+						closeNav();
+					}
+				});
+
+				window.addEventListener(
+					"resize",
+					function () {
+						if (window.innerWidth > 767) closeNav();
+					},
+					{ passive: true }
+				);
 			})();
 		</script>
 	</body>
