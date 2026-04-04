@@ -1217,12 +1217,6 @@ body.carver-home img {
 	}
 }
 
-@media (max-width: 600px) {
-	.carver-practice__grid {
-		grid-template-columns: 1fr;
-	}
-}
-
 .carver-pa-card {
 	background: #fff;
 	border: 1px solid var(--carver-navy);
