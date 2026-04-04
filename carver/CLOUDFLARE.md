@@ -23,6 +23,8 @@ Workspaces make the Rollup optional-deps bug more likely. Prefer the root **`pos
 
 Do **not** override `CF_PAGES` in the dashboard.
 
+**Important:** `carver/dist` is a **folder on disk** for the build. Cloudflare uploads **what’s inside** that folder to the **hostname root**. Visitors use `https://yoursite.pages.dev/` — there is **no** `/dist` in the public URL. If you see `/dist` in the browser, the build output directory is probably wrong, or you’re serving the parent folder locally instead of `dist`.
+
 ## Alternative: only the `carver` app (simplest for Rollup)
 
 If you prefer not to rely on `postinstall`:
@@ -45,11 +47,13 @@ From repo root, or `cd carver && CF_PAGES=1 npm run build`.
 
 Output: `carver/dist` (or `dist` if building from `carver/`).
 
-Preview:
+**Do not open `dist/index.html` via `file://`** — browsers treat `/` as the machine root, so absolute asset URLs break. The build rewrites `/_astro/…` to `./_astro/…` for this reason; still prefer an HTTP server:
 
 ```bash
 cd carver && npx wrangler pages dev dist
 ```
+
+or `npx serve dist` / `python3 -m http.server -d dist`.
 
 ## Local dev (full EmDash + Node)
 
