@@ -1,13 +1,10 @@
 {
 	"name": "carver-llc",
 	"private": true,
-	"workspaces": ["carver"],
 	"scripts": {
-		"build": "npm run build -w carver",
-		"dev": "npm run dev -w carver",
-		"build:pages": "npm run build:pages -w carver"
-	},
-	"optionalDependencies": {
-		"@rollup/rollup-linux-x64-gnu": "^4.43.0"
+		"postinstall": "npm ci --prefix carver --include=dev",
+		"build": "npm run build --prefix carver",
+		"dev": "npm run dev --prefix carver",
+		"build:pages": "npm run build:pages --prefix carver"
 	}
 }
