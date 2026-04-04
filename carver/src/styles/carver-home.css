@@ -24,7 +24,7 @@
 	--carver-trust-bar: #1a3e4d;
 	--carver-orange: #ef8d32;
 	--carver-footer: #1c1c1c;
-	--carver-header-bg: rgba(36, 52, 82, 0.5);
+	--carver-header-bg: #37567980;
 	--carver-header-bg-solid: #243452;
 	--carver-header-bg-mobile-solid: #141414;
 }
@@ -92,11 +92,6 @@ body.carver-home img {
 		backdrop-filter: none;
 	}
 
-	/* perspective on __inner makes fixed .carver-nav use the inner box as CB — use viewport */
-	.carver-header__inner {
-		perspective: none;
-		transform-style: flat;
-	}
 }
 
 .carver-header__inner {
@@ -109,9 +104,15 @@ body.carver-home img {
 	flex-wrap: nowrap;
 	padding: calc((1.35rem * 1.25 * 1.25 + 0.35rem) * 0.8 * 1.15) clamp(0.65rem, 2vw, 1.125rem);
 	transition: padding 0.28s ease;
-	perspective: 1400px;
-	perspective-origin: 50% 0%;
-	transform-style: preserve-3d;
+}
+
+/* perspective creates a containing block — keep off mobile so fixed .carver-nav is viewport-sized */
+@media (min-width: 768px) {
+	.carver-header__inner {
+		perspective: 1400px;
+		perspective-origin: 50% 0%;
+		transform-style: preserve-3d;
+	}
 }
 
 @media (min-width: 981px) {
@@ -588,44 +589,101 @@ body.carver-home img {
 		z-index: 1002;
 	}
 
+	/* Floating menu panel — centered, wider card; --carver-mobile-nav-offset from JS */
 	.carver-nav {
 		position: fixed;
-		top: 0;
+		top: var(--carver-mobile-nav-offset, 7.75rem);
 		left: 0;
 		right: 0;
 		bottom: 0;
-		z-index: 1001;
-		background: var(--carver-header-bg-mobile-solid);
-		padding: 4.75rem 1.25rem 2rem;
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
-		transform: translateX(100%);
+		z-index: 999;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		padding: 0.65rem clamp(0.75rem, 4vw, 1.5rem) 0;
+		margin: 0;
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
+		overflow: hidden;
+		pointer-events: none;
+		opacity: 0;
 		visibility: hidden;
 		transition:
-			transform 0.28s ease,
+			opacity 0.28s ease,
 			visibility 0.28s ease;
 	}
 
+	.carver-nav::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background: rgba(0, 0, 0, 0.35);
+		-webkit-backdrop-filter: blur(3px);
+		backdrop-filter: blur(3px);
+	}
+
 	.carver-header.is-nav-open .carver-nav {
-		transform: translateX(0);
+		pointer-events: auto;
+		opacity: 1;
 		visibility: visible;
 	}
 
+	/* Same panel treatment as desktop .sub-menu; centered + wider than previous 300px cap */
 	.carver-nav > ul {
+		position: relative;
+		flex: 0 1 auto;
+		width: min(420px, calc(100vw - 2rem));
+		max-height: calc(100vh - var(--carver-mobile-nav-offset, 7.75rem) - 1.5rem);
+		margin: 0;
+		padding: 0.35rem 0 0.85rem;
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		list-style: none;
+		display: flex;
 		flex-direction: column;
 		flex-wrap: nowrap;
 		align-items: stretch;
 		justify-content: flex-start;
-		gap: 0;
+		gap: 1.6rem;
+		background: rgba(0, 0, 0, 0.82);
+		border-top: 2px solid var(--carver-lime);
+		box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
+		transform: translate3d(115vw, 0, 0);
+		transition: transform 0.28s cubic-bezier(0.33, 0.84, 0.42, 1);
+		z-index: 1;
+	}
+
+	.carver-header.is-nav-open .carver-nav > ul {
+		transform: translate3d(0, 0, 0);
 	}
 
 	.carver-nav > ul > li {
-		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+		border-bottom: none;
 	}
 
 	.carver-nav > ul > li > a {
-		font-size: 1.0625rem;
-		padding: 0.95rem 0.35rem;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		font-family: Ubuntu, Helvetica, Arial, Lucida, sans-serif;
+		font-size: 15px;
+		padding: 0.5rem 1.5rem;
+		border-radius: 0;
+		border: none;
+		text-decoration: none;
+		text-align: left;
+	}
+
+	.carver-nav > ul > li > a:hover {
+		color: var(--carver-lime) !important;
+		background: rgba(255, 255, 255, 0.08);
 	}
 
 	.carver-nav__item--has-sub > a {
@@ -635,31 +693,55 @@ body.carver-home img {
 		width: 100%;
 	}
 
+	.carver-nav__item--has-sub .carver-nav__caret {
+		flex-shrink: 0;
+		margin-left: 0.5rem;
+	}
+
 	.carver-nav__item--has-sub.is-submenu-open .carver-nav__caret {
 		transform: rotate(180deg);
 	}
 
+	/* Nested Practice Areas list: tighter vertical rhythm (gap on parent ul does not apply inside sub-menu) */
 	.carver-nav .sub-menu {
-		position: static;
+		position: relative;
+		left: auto;
+		top: auto;
 		display: none;
-		background: rgba(0, 0, 0, 0.22);
-		border: none;
-		border-top: 1px solid rgba(255, 255, 255, 0.08);
-		box-shadow: none;
-		padding: 0.35rem 0;
-		margin: 0;
 		min-width: 0;
-		-webkit-backdrop-filter: none;
-		backdrop-filter: none;
+		width: auto;
+		max-width: none;
+		margin: 0.25rem 0.85rem 0;
+		background: rgba(0, 0, 0, 0.82);
+		border: none;
+		border-top: 2px solid var(--carver-lime);
+		box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+		padding: 0.5rem 0;
+		list-style: none;
+		z-index: 1;
+		-webkit-backdrop-filter: blur(8px);
+		backdrop-filter: blur(8px);
 	}
 
 	.carver-nav__item--has-sub.is-submenu-open .sub-menu {
 		display: block !important;
 	}
 
+	.carver-nav .sub-menu li {
+		margin: 0;
+	}
+
 	.carver-nav .sub-menu a {
-		padding: 0.65rem 1rem 0.65rem 1.35rem;
-		font-size: 0.95rem;
+		padding: 0.55rem 1.25rem;
+		font-size: 15px;
+		text-align: left;
+		text-decoration: none;
+		border: none;
+	}
+
+	.carver-nav .sub-menu a:hover {
+		color: var(--carver-lime) !important;
+		background: rgba(255, 255, 255, 0.08);
 	}
 
 	.carver-logo img {

@@ -376,7 +376,7 @@ const U = "/carver/wp-content/uploads";
 						<button type="submit">SUBMIT</button>
 					</form>
 				</section>
-			</main>
+		</main>
 
 			<footer class="carver-footer">
 				<div class="carver-footer__grid">
@@ -503,18 +503,32 @@ const U = "/carver/wp-content/uploads";
 
 				var mq = window.matchMedia("(max-width: 767px)");
 
+				function updateMobileNavOffset() {
+					if (!mq.matches) {
+						hdr.style.removeProperty("--carver-mobile-nav-offset");
+						return;
+					}
+					hdr.style.setProperty("--carver-mobile-nav-offset", hdr.offsetHeight + "px");
+				}
+
 				function setNavOpen(open) {
+					if (open) updateMobileNavOffset();
 					hdr.classList.toggle("is-nav-open", open);
 					toggle.setAttribute("aria-expanded", open ? "true" : "false");
 					toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
 					document.body.style.overflow = open ? "hidden" : "";
+					if (!open) {
+						nav.querySelectorAll("li.is-submenu-open").forEach(function (li) {
+							li.classList.remove("is-submenu-open");
+						});
+					} else if (mq.matches) {
+						var pa = nav.querySelector(".carver-nav__item--has-sub");
+						if (pa) pa.classList.add("is-submenu-open");
+					}
 				}
 
 				function closeNav() {
 					setNavOpen(false);
-					nav.querySelectorAll("li.is-submenu-open").forEach(function (li) {
-						li.classList.remove("is-submenu-open");
-					});
 				}
 
 				toggle.addEventListener("click", function () {
@@ -548,7 +562,14 @@ const U = "/carver/wp-content/uploads";
 					if (!mq.matches) {
 						closeNav();
 					}
+					updateMobileNavOffset();
 				});
+
+				updateMobileNavOffset();
+				window.addEventListener("resize", updateMobileNavOffset, { passive: true });
+				if (typeof ResizeObserver !== "undefined") {
+					new ResizeObserver(updateMobileNavOffset).observe(hdr);
+				}
 
 				window.addEventListener(
 					"resize",
