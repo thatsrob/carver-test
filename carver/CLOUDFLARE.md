@@ -2,63 +2,73 @@
 
 Cloudflare sets `CF_PAGES=1` during builds. This project detects it and emits a **static** site (no Node adapter, no EmDash/SQLite — those need a Node host).
 
-## Rollup native binary on Linux CI
+## Fix: site only works at `/dist` and images 404
 
-[npm/cli#4828](https://github.com/npm/cli/issues/4828) can omit Rollup’s optional `@rollup/rollup-linux-x64-*` packages (especially with **npm workspaces**). This repo includes **`carver/scripts/ensure-rollup-native.mjs`**, run automatically via **`prebuild`** before `astro build`, which installs the GNU and musl Linux x64 bindings when they are missing.
+Two separate issues:
 
-## Why not npm workspaces?
+### 1) Wrong “Build output directory” (site lives under `/dist` in the URL)
 
-Workspaces make the Rollup optional-deps bug more likely. Prefer the root **`postinstall`** → `npm ci --prefix carver` layout in this repo, or set the Pages **Root directory** to **`carver`** only.
+Cloudflare’s **Build output directory** is a **path on disk**, not a URL segment. Whatever folder you point to becomes **`/`** on your domain. You must **not** double the folder name.
 
-## Dashboard settings (repo root as Pages root)
+Pick **one** layout:
+
+#### Option A — Monorepo root is the Pages root (this repo)
 
 | Setting | Value |
 |--------|--------|
-| **Root directory** | `/` (empty) |
-| **Build command** | `npm run build` |
+| **Root directory** (Advanced) | _empty_ |
+| **Build command** | `npm run build:cf` |
 | **Build output directory** | `carver/dist` |
-| **Framework preset** | Astro (or None) |
 
-`npm clean-install` at the repo root runs `postinstall`, which runs `npm ci` inside `carver/`, then `npm run build` delegates to `carver`’s `astro build`.
+Here the app lives under `carver/` in git, but the **built files** are in `carver/dist/`. Cloudflare publishes **the contents** of `carver/dist` at `https://<project>.pages.dev/` — **no** `/dist` in the public URL.
 
-Do **not** override `CF_PAGES` in the dashboard.
-
-**Important:** `carver/dist` is a **folder on disk** for the build. Cloudflare uploads **what’s inside** that folder to the **hostname root**. Visitors use `https://yoursite.pages.dev/` — there is **no** `/dist` in the public URL. If you see `/dist` in the browser, the build output directory is probably wrong, or you’re serving the parent folder locally instead of `dist`.
-
-## Alternative: only the `carver` app (simplest for Rollup)
-
-If you prefer not to rely on `postinstall`:
+#### Option B — Only the `carver` folder is the Pages root
 
 | Setting | Value |
 |--------|--------|
-| **Root directory** | `carver` |
-| **Build command** | `npm run build` |
+| **Root directory** (Advanced) | `carver` |
+| **Build command** | `npm run build:cf` |
 | **Build output directory** | `dist` |
 
-Install and build run entirely inside `carver/` (no workspace bug).
+Because the project root **is** already `carver/`, the output folder is **`dist`**, not `carver/dist`. Using `carver/dist` here often breaks paths (wrong nested folder) and can make the site appear under `/dist`.
 
-## Local check (static output)
+**Wrong combinations**
+
+| Root directory | Build output directory | Problem |
+|----------------|------------------------|--------|
+| `carver` | `carver/dist` | Usually resolves to the wrong path (`carver/carver/dist` or similar). |
+| _empty_ | `dist` | Wrong unless `index.html` is at repo `dist/` (it is under `carver/dist`). |
+
+### 2) Images don’t load
+
+HTML/CSS use `/carver/wp-content/uploads/...`. Those files must exist under **`public/carver/`** in the Astro project so they copy into **`dist/carver/`**.
+
+The script **`npm run build:cf`** runs **`download-carver-assets`** first (pulls from gocarverllc.com), then **`npm run build`**. Use **`build:cf`** as the Cloudflare **Build command** so every deploy includes images.
+
+If you use plain **`npm run build`** on Pages without downloading first, `public/carver/` may be empty and images 404.
+
+---
+
+## Rollup native binary on Linux CI
+
+[npm/cli#4828](https://github.com/npm/cli/issues/4828) can omit Rollup’s optional `@rollup/rollup-linux-x64-*` packages. This repo includes **`carver/scripts/ensure-rollup-native.mjs`** (via **`prebuild`**) to install Linux bindings when missing.
+
+## Install step (repo root)
+
+Root **`postinstall`** runs **`npm ci --prefix carver`**. Keep using **`npm clean-install`** (or **`npm ci`**) at the repo root so `carver` dependencies install.
+
+## Environment
+
+Do **not** override **`CF_PAGES`** in the dashboard; Cloudflare sets it automatically.
+
+## Local preview (static)
 
 ```bash
-CF_PAGES=1 npm run build
+cd carver && CF_PAGES=1 npm run build && npm run preview:static
 ```
 
-From repo root, or `cd carver && CF_PAGES=1 npm run build`.
-
-Output: `carver/dist` (or `dist` if building from `carver/`).
-
-**Do not open `dist/index.html` via `file://`** — browsers treat `/` as the machine root, so absolute asset URLs break. The build rewrites `/_astro/…` to `./_astro/…` for this reason; still prefer an HTTP server:
-
-```bash
-cd carver && npx wrangler pages dev dist
-```
-
-or `npx serve dist` / `python3 -m http.server -d dist`.
+Open the URL `serve` prints (usually **`/`** is the homepage, not `/dist`).
 
 ## Local dev (full EmDash + Node)
 
-From repo root: `npm run dev` (runs `npm run dev --prefix carver`).
-
-Or: `cd carver && npm run dev`.
-
-Full server build (no `CF_PAGES`): `cd carver && npm run build`.
+`npm run dev` from repo root, or `cd carver && npm run dev`.

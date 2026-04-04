@@ -8,6 +8,7 @@
     "prebuild": "node scripts/ensure-rollup-native.mjs",
     "dev": "astro dev",
     "build": "astro build && node scripts/relative-public-assets.mjs",
+    "build:cf": "node scripts/download-carver-assets.mjs && npm run build",
     "build:pages": "CF_PAGES=1 astro build",
     "preview": "astro preview",
     "preview:static": "npx --yes serve@14 dist",
