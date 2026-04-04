@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "download-assets": "node scripts/download-carver-assets.mjs",
+    "prebuild": "node scripts/ensure-rollup-native.mjs",
     "dev": "astro dev",
     "build": "astro build",
     "build:pages": "CF_PAGES=1 astro build",

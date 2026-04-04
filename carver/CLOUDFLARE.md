@@ -2,9 +2,13 @@
 
 Cloudflare sets `CF_PAGES=1` during builds. This project detects it and emits a **static** site (no Node adapter, no EmDash/SQLite — those need a Node host).
 
+## Rollup native binary on Linux CI
+
+[npm/cli#4828](https://github.com/npm/cli/issues/4828) can omit Rollup’s optional `@rollup/rollup-linux-x64-*` packages (especially with **npm workspaces**). This repo includes **`carver/scripts/ensure-rollup-native.mjs`**, run automatically via **`prebuild`** before `astro build`, which installs the GNU and musl Linux x64 bindings when they are missing.
+
 ## Why not npm workspaces?
 
-npm workspaces trigger [npm/cli#4828](https://github.com/npm/cli/issues/4828): Rollup’s Linux native binary (`@rollup/rollup-linux-x64-gnu`) may not install under `carver/node_modules` on CI. This repo **does not use workspaces**. The root `package.json` runs **`postinstall`** → `npm ci --prefix carver` so dependencies (including Rollup optionals) install as a normal project under `carver/`.
+Workspaces make the Rollup optional-deps bug more likely. Prefer the root **`postinstall`** → `npm ci --prefix carver` layout in this repo, or set the Pages **Root directory** to **`carver`** only.
 
 ## Dashboard settings (repo root as Pages root)
 
