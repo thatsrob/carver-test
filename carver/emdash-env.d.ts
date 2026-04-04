@@ -3,28 +3,16 @@
 
 /// <reference types="emdash/locals" />
 
-import type { ContentBylineCredit, PortableTextBlock } from "emdash";
+import type { ContentBylineCredit } from "emdash";
 
 export interface Page {
   id: string;
   slug: string | null;
   status: string;
   title: string;
-  content?: PortableTextBlock[];
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt: Date | null;
-  bylines?: ContentBylineCredit[];
-}
-
-export interface Post {
-  id: string;
-  slug: string | null;
-  status: string;
-  title: string;
-  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number };
-  content?: PortableTextBlock[];
-  excerpt?: string;
+  homepage?: unknown;
+  layout?: unknown;
+  seo?: unknown;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -38,6 +26,8 @@ export interface PracticeArea {
   title: string;
   url: string;
   icon?: { id: string; src?: string; alt?: string; width?: number; height?: number };
+  icon_width?: number;
+  icon_height?: number;
   sort_order?: number;
   createdAt: Date;
   updatedAt: Date;
@@ -48,7 +38,6 @@ export interface PracticeArea {
 declare module "emdash" {
   interface EmDashCollections {
     pages: Page;
-    posts: Post;
     practice_areas: PracticeArea;
   }
 }

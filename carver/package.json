@@ -16,6 +16,7 @@
     "bootstrap": "emdash init",
     "seed:build": "node scripts/build-carver-seed.mjs",
     "seed:apply": "emdash seed seed/seed.json",
+    "seed:reset": "rm -f data.db data.db-shm data.db-wal && npm run seed:apply",
     "typecheck": "astro check"
   },
   "dependencies": {

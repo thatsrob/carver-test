@@ -26,9 +26,23 @@ export async function loadCarverHomepageFromCms(): Promise<{
 		const pageRes = await getEmDashEntry("pages", "home");
 		if (pageRes?.cacheHint) cacheHints.push(pageRes.cacheHint);
 
-		const raw = (pageRes?.entry?.data as { homepage?: unknown } | undefined)?.homepage;
-		if (raw && typeof raw === "object" && !Array.isArray(raw)) {
-			data.homepage = mergeDeep(data.homepage, raw as Partial<CarverHomeData["homepage"]>);
+		const pageData = pageRes?.entry?.data as
+			| { homepage?: unknown; layout?: unknown; seo?: unknown }
+			| undefined;
+
+		const rawHome = pageData?.homepage;
+		if (rawHome && typeof rawHome === "object" && !Array.isArray(rawHome)) {
+			data.homepage = mergeDeep(data.homepage, rawHome as Partial<CarverHomeData["homepage"]>);
+		}
+
+		const rawLayout = pageData?.layout;
+		if (rawLayout && typeof rawLayout === "object" && !Array.isArray(rawLayout)) {
+			data.layout = mergeDeep(data.layout, rawLayout as Partial<CarverHomeData["layout"]>);
+		}
+
+		const rawSeo = pageData?.seo;
+		if (rawSeo && typeof rawSeo === "object" && !Array.isArray(rawSeo)) {
+			data.meta = mergeDeep(data.meta, rawSeo as Partial<CarverHomeData["meta"]>);
 		}
 
 		const paRes = await getEmDashCollection("practice_areas", {
@@ -46,12 +60,15 @@ export async function loadCarverHomepageFromCms(): Promise<{
 			data.practice_areas = sorted.map((e) => {
 				const icon = e.data.icon as { src?: string } | string | undefined;
 				const iconSrc = typeof icon === "string" ? icon : (icon?.src ?? "");
+				const d = e.data as { icon_width?: unknown; icon_height?: unknown };
+				const iconW = Number(d.icon_width);
+				const iconH = Number(d.icon_height);
 				return {
 					title: String(e.data.title ?? ""),
 					url: String(e.data.url ?? "#"),
 					iconSrc,
-					iconW: 77,
-					iconH: 77,
+					iconW: Number.isFinite(iconW) && iconW > 0 ? iconW : 77,
+					iconH: Number.isFinite(iconH) && iconH > 0 ? iconH : 77,
 				};
 			});
 		}

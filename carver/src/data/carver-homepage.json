@@ -1,10 +1,110 @@
 {
 	"meta": {
 		"title": "Award-Winning Criminal Defense Attorney Springfield MO - Carver & Associates Law Firm",
-		"description": "Elite Criminal Defense Attorney Springfield MO. 3X Lawyer of the Year in Springfield, Missouri. 40+ Years Experience > Free Consultation."
+		"description": "Elite Criminal Defense Attorney Springfield MO. 3X Lawyer of the Year in Springfield, Missouri. 40+ Years Experience > Free Consultation.",
+		"siteOrigin": "https://gocarverllc.com",
+		"ogImage": "/carver/wp-content/uploads/2021/02/Carver-law-hero-background.jpg"
+	},
+	"layout": {
+		"htmlLang": "en-US",
+		"adminLink": { "href": "/_emdash/admin", "label": "EmDash admin" },
+		"uploadsBase": "/carver/wp-content/uploads",
+		"favicons": {
+			"32": "2021/03/cropped-Carver-associates-favicon-32x32.png",
+			"192": "2021/03/cropped-Carver-associates-favicon-192x192.png",
+			"apple": "2021/03/cropped-Carver-associates-favicon-180x180.png"
+		},
+		"header": {
+			"logoAriaLabel": "Carver & Associates home",
+			"logo": {
+				"src": "2021/02/Carver-associates-logo.png",
+				"width": 210,
+				"height": 57,
+				"alt": "Carver associates logo"
+			},
+			"navAriaLabel": "Main",
+			"navItems": [
+				{ "label": "Home", "href": "/" },
+				{ "label": "About", "href": "https://gocarverllc.com/thomas-carver/" },
+				{
+					"label": "Practice Areas",
+					"href": "https://gocarverllc.com/criminal-lawyer-springfield-mo/",
+					"children": [
+						{ "label": "Federal Criminal", "href": "https://gocarverllc.com/federal-criminal-lawyer/" },
+						{ "label": "Sex Crimes", "href": "https://gocarverllc.com/sex-crime-lawyer/" },
+						{ "label": "Child Pornography", "href": "https://gocarverllc.com/child-pornography-lawyer/" },
+						{ "label": "White Collar Crime", "href": "https://gocarverllc.com/white-collar-crime-lawyer/" },
+						{ "label": "Fraud", "href": "https://gocarverllc.com/fraud-lawyers/" },
+						{ "label": "Drug Conspiracy", "href": "https://gocarverllc.com/drug-conspiracy/" },
+						{ "label": "DWI", "href": "https://gocarverllc.com/dwi-lawyer-springfield-mo/" },
+						{ "label": "Traffic Tickets", "href": "https://gocarverllc.com/springfield-traffic-tickets/" }
+					]
+				},
+				{ "label": "Blog", "href": "https://gocarverllc.com/blog/" },
+				{ "label": "Contact", "href": "https://gocarverllc.com/contact/" }
+			],
+			"phone": { "tel": "4173501172", "display": "(417) 350-1172" },
+			"cta": { "label": "Free consultation", "href": "https://gocarverllc.com/contact/" },
+			"navToggle": {
+				"openLabel": "Open menu",
+				"closeLabel": "Close menu"
+			}
+		},
+		"footer": {
+			"logo": {
+				"src": "2021/02/Carver-associates-logo.png",
+				"width": 240,
+				"height": 65,
+				"alt": "Carver associates logo"
+			},
+			"linkedin": {
+				"href": "https://www.linkedin.com/in/thomas-carver-a6a44ab/",
+				"ariaLabel": "Thomas Carver on LinkedIn",
+				"iconSrc": "/carver/icons/linkedin.svg",
+				"iconWidth": 32,
+				"iconHeight": 32
+			},
+			"links": [
+				{ "label": "Home", "href": "/" },
+				{ "label": "Practice Areas", "href": "https://gocarverllc.com/criminal-lawyer-springfield-mo/" },
+				{ "label": "About Us", "href": "https://gocarverllc.com/thomas-carver/" },
+				{ "label": "Blog", "href": "https://gocarverllc.com/blog/" },
+				{ "label": "Contact", "href": "https://gocarverllc.com/contact/" },
+				{ "label": "Privacy Policy", "href": "https://gocarverllc.com/privacy-policy/" }
+			],
+			"contact": {
+				"heading": "CONTACT US",
+				"headingHref": "https://gocarverllc.com/contact/",
+				"phonePrefix": "Phone:",
+				"phoneTel": "4173501172",
+				"phoneDisplay": "(417) 350-1172",
+				"faxLine": "Fax: (417) 350-1182",
+				"addressHtml": "<strong>2974 E Battlefield Rd, Springfield, MO 65804</strong>"
+			},
+			"map": {
+				"title": "Carver & Associates on Google Maps",
+				"src": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50876.44058656002!2d-93.2768278655253!3d37.157988913798484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87cf63a959048a2f%3A0xeb431c8f474eb409!2sCarver%20%26%20Associates!5e0!3m2!1sen!2sus!4v1765987874693!5m2!1sen!2sus"
+			},
+			"fineprint": {
+				"copyright": "Copyright © 2021–2026 Carver & Associates",
+				"disclaimer": "Use of the website does not constitute legal advice or form an attorney/client relationship."
+			},
+			"mark": {
+				"href": "https://goconstellation.com",
+				"img": {
+					"src": "2021/07/Constellation-Marketing-Lawyer-Marketing.png",
+					"srcset": "2021/07/Constellation-Marketing-Lawyer-Marketing.png 350w, 2021/07/Constellation-Marketing-Lawyer-Marketing-300x67.png 300w",
+					"sizes": "210px",
+					"width": 210,
+					"height": 47,
+					"alt": "Constellation Marketing Lawyer Marketing"
+				}
+			}
+		}
 	},
 	"homepage": {
 		"hero": {
+			"ariaLabel": "Hero",
 			"taglineHtml": "<p class=\"carver-hero__tagline-inner\">When your<br class=\"carver-hero__br--md\" /> freedom is on<br class=\"carver-hero__br--md\" /> the line, you<br class=\"carver-hero__br--md\" /> need the <strong>BEST</strong><br class=\"carver-hero__br--md\" /> Criminal<br class=\"carver-hero__br--md\" /> Defense.</p>",
 			"ctaHref": "https://gocarverllc.com/contact/",
 			"ctaLabel": "Free consultation"
@@ -27,6 +127,7 @@
 			]
 		},
 		"intro": {
+			"columnIcon": "L",
 			"eyebrow": "WHEN YOU WANT THE BEST",
 			"title": "Criminal Lawyer Springfield MO",
 			"columns": [
@@ -45,6 +146,7 @@
 			]
 		},
 		"stats": {
+			"ariaLabel": "Experience and results",
 			"imageSrc": "/carver/wp-content/uploads/2021/02/carver-law-homepage-about-section-min.jpg",
 			"imageSrcset": "/carver/wp-content/uploads/2021/02/carver-law-homepage-about-section-min-480x428.jpg 480w, /carver/wp-content/uploads/2021/02/carver-law-homepage-about-section-min.jpg 640w",
 			"imageSizes": "(max-width: 480px) 480px, 640px",
@@ -52,6 +154,7 @@
 			"imageHeight": 571,
 			"imageAlt": "Courthouse pillars",
 			"ctaHref": "https://gocarverllc.com/contact/",
+			"ctaLabel": "Free Consultation",
 			"headline": "Vast Experience, Unmatched Results",
 			"blurbs": [
 				{
@@ -67,6 +170,10 @@
 					"desc": "One of the most experienced federal litigators in Springfield and the State of Missouri"
 				}
 			]
+		},
+		"practice": {
+			"heading": "Criminal Defense Practice Areas",
+			"cardCtaLabel": "Learn More"
 		},
 		"vigorous": {
 			"heading": "VIGOROUS, EFFECTIVE CRIMINAL DEFENSE",
@@ -121,7 +228,14 @@
 			]
 		},
 		"contact": {
-			"heading": "CONTACT US"
+			"heading": "CONTACT US",
+			"form": {
+				"nameLabel": "Name *",
+				"emailLabel": "Email *",
+				"phoneLabel": "Phone *",
+				"messageLabel": "What happened? *",
+				"submitLabel": "SUBMIT"
+			}
 		}
 	},
 	"practice_areas": [

@@ -33,6 +33,8 @@ const seed = {
 			fields: [
 				{ slug: "title", label: "Title", type: "string", required: true, searchable: true },
 				{ slug: "homepage", label: "Homepage sections (structured JSON)", type: "json" },
+				{ slug: "layout", label: "Site header, footer, nav (structured JSON)", type: "json" },
+				{ slug: "seo", label: "SEO (title, description, og image)", type: "json" },
 			],
 		},
 		{
@@ -44,6 +46,8 @@ const seed = {
 				{ slug: "title", label: "Title", type: "string", required: true, searchable: true },
 				{ slug: "url", label: "Link URL", type: "string", required: true },
 				{ slug: "icon", label: "Icon", type: "image" },
+				{ slug: "icon_width", label: "Icon width (px)", type: "integer" },
+				{ slug: "icon_height", label: "Icon height (px)", type: "integer" },
 				{ slug: "sort_order", label: "Sort order", type: "integer" },
 			],
 		},
@@ -57,6 +61,13 @@ const seed = {
 				data: {
 					title: "Home",
 					homepage: data.homepage,
+					layout: data.layout,
+					seo: {
+						title: data.meta.title,
+						description: data.meta.description,
+						siteOrigin: data.meta.siteOrigin,
+						ogImage: data.meta.ogImage,
+					},
 				},
 			},
 		],
@@ -68,6 +79,8 @@ const seed = {
 				title: pa.title,
 				url: pa.url,
 				sort_order: i + 1,
+				icon_width: pa.iconW ?? 77,
+				icon_height: pa.iconH ?? 77,
 				icon:
 					pa.iconSrc.startsWith("http") ?
 						pa.iconSrc

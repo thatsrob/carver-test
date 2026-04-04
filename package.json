@@ -6,6 +6,9 @@
 		"build": "npm run build --prefix carver",
 		"build:cf": "npm run build:cf --prefix carver",
 		"dev": "npm run dev --prefix carver",
-		"build:pages": "npm run build:pages --prefix carver"
+		"build:pages": "npm run build:pages --prefix carver",
+		"seed:build": "npm run seed:build --prefix carver",
+		"seed:apply": "npm run seed:apply --prefix carver",
+		"seed:reset": "npm run seed:reset --prefix carver"
 	}
 }

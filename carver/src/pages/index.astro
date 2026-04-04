@@ -8,20 +8,44 @@ for (const h of cacheHints) {
 	if (h) Astro.cache.set(h);
 }
 
-const U = "/carver/wp-content/uploads";
+const L = data.layout;
+const U = L.uploadsBase;
+const H = L.header;
+const F = L.footer;
+const fav = L.favicons;
 const META = data.meta;
+
+function absoluteOgImage(): string {
+	const og = META.ogImage;
+	if (!og) return `https://gocarverllc.com${U}/2021/02/Carver-law-hero-background.jpg`;
+	if (og.startsWith("http")) return og;
+	return `${META.siteOrigin ?? "https://gocarverllc.com"}${og}`;
+}
+
+/** srcset in JSON lists paths relative to uploadsBase (comma-separated "path 300w" pairs). */
+function uploadsSrcset(spec: string) {
+	return spec
+		.split(", ")
+		.map((part) => {
+			const bits = part.trim().split(/\s+/);
+			const rel = bits[0];
+			const rest = bits.slice(1).join(" ");
+			return `${U}/${rel}${rest ? ` ${rest}` : ""}`;
+		})
+		.join(", ");
+}
 ---
 
 <!doctype html>
-<html lang="en-US">
+<html lang={L.htmlLang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content={META.description} />
 		<title>{META.title}</title>
-		<link rel="icon" type="image/png" sizes="32x32" href={`${U}/2021/03/cropped-Carver-associates-favicon-32x32.png`} />
-		<link rel="icon" type="image/png" sizes="192x192" href={`${U}/2021/03/cropped-Carver-associates-favicon-192x192.png`} />
-		<link rel="apple-touch-icon" href={`${U}/2021/03/cropped-Carver-associates-favicon-180x180.png`} />
+		<link rel="icon" type="image/png" sizes="32x32" href={`${U}/${fav["32"]}`} />
+		<link rel="icon" type="image/png" sizes="192x192" href={`${U}/${fav["192"]}`} />
+		<link rel="apple-touch-icon" href={`${U}/${fav.apple}`} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -34,14 +58,19 @@ const META = data.meta;
 			crossorigin="anonymous"
 			referrerpolicy="no-referrer"
 		/>
-		<meta property="og:image" content={`https://gocarverllc.com${U}/2021/02/Carver-law-hero-background.jpg`} />
+		<meta property="og:image" content={absoluteOgImage()} />
 	</head>
 	<body class="carver-home">
 		<header class="carver-header" id="carver-header">
 				<div class="carver-header__inner">
 					<div class="carver-header__left">
-						<a class="carver-logo" href="/" aria-label="Carver & Associates home">
-							<img src={`${U}/2021/02/Carver-associates-logo.png`} width="210" height="57" alt="Carver associates logo" />
+						<a class="carver-logo" href="/" aria-label={H.logoAriaLabel}>
+							<img
+								src={`${U}/${H.logo.src}`}
+								width={H.logo.width}
+								height={H.logo.height}
+								alt={H.logo.alt}
+							/>
 						</a>
 						<button
 							type="button"
@@ -49,42 +78,47 @@ const META = data.meta;
 							id="carver-nav-toggle"
 							aria-expanded="false"
 							aria-controls="carver-nav"
-							aria-label="Open menu"
+							aria-label={H.navToggle.openLabel}
+							data-nav-open-label={H.navToggle.openLabel}
+							data-nav-close-label={H.navToggle.closeLabel}
 						>
 							<i class="fa fa-bars carver-nav__toggle-icon carver-nav__toggle-icon--open" aria-hidden="true"></i>
 							<i class="fa fa-times carver-nav__toggle-icon carver-nav__toggle-icon--close" aria-hidden="true"></i>
 						</button>
-						<nav class="carver-nav" id="carver-nav" aria-label="Main">
+						<nav class="carver-nav" id="carver-nav" aria-label={H.navAriaLabel}>
 							<ul>
-								<li><a href="/" aria-current="page">Home</a></li>
-								<li><a href="https://gocarverllc.com/thomas-carver/">About</a></li>
-								<li class="carver-nav__item--has-sub">
-									<a href="https://gocarverllc.com/criminal-lawyer-springfield-mo/">
-										Practice Areas
-										<i class="fa fa-chevron-down carver-nav__caret" aria-hidden="true"></i>
-									</a>
-									<ul class="sub-menu">
-										<li><a href="https://gocarverllc.com/federal-criminal-lawyer/">Federal Criminal</a></li>
-										<li><a href="https://gocarverllc.com/sex-crime-lawyer/">Sex Crimes</a></li>
-										<li><a href="https://gocarverllc.com/child-pornography-lawyer/">Child Pornography</a></li>
-										<li><a href="https://gocarverllc.com/white-collar-crime-lawyer/">White Collar Crime</a></li>
-										<li><a href="https://gocarverllc.com/fraud-lawyers/">Fraud</a></li>
-										<li><a href="https://gocarverllc.com/drug-conspiracy/">Drug Conspiracy</a></li>
-										<li><a href="https://gocarverllc.com/dwi-lawyer-springfield-mo/">DWI</a></li>
-										<li><a href="https://gocarverllc.com/springfield-traffic-tickets/">Traffic Tickets</a></li>
-									</ul>
-								</li>
-								<li><a href="https://gocarverllc.com/blog/">Blog</a></li>
-								<li><a href="https://gocarverllc.com/contact/">Contact</a></li>
+								{H.navItems.map((item) =>
+									item.children?.length ? (
+										<li class="carver-nav__item--has-sub">
+											<a href={item.href}>
+												{item.label}
+												<i class="fa fa-chevron-down carver-nav__caret" aria-hidden="true"></i>
+											</a>
+											<ul class="sub-menu">
+												{item.children.map((sub) => (
+													<li>
+														<a href={sub.href}>{sub.label}</a>
+													</li>
+												))}
+											</ul>
+										</li>
+									) : (
+										<li>
+											<a href={item.href} aria-current={item.href === "/" ? "page" : undefined}>
+												{item.label}
+											</a>
+										</li>
+									),
+								)}
 							</ul>
 						</nav>
 					</div>
 					<div class="carver-header__end">
 						<div class="carver-header__tel">
-							<a href="tel:4173501172">(417) 350-1172</a>
+							<a href={`tel:${H.phone.tel}`}>{H.phone.display}</a>
 						</div>
 						<div class="carver-header__cta">
-							<a class="carver-btn--header" href="https://gocarverllc.com/contact/">Free consultation</a>
+							<a class="carver-btn--header" href={H.cta.href}>{H.cta.label}</a>
 						</div>
 					</div>
 				</div>
@@ -98,39 +132,52 @@ const META = data.meta;
 			<footer class="carver-footer">
 				<div class="carver-footer__grid">
 					<div class="carver-footer__brand">
-						<img src={`${U}/2021/02/Carver-associates-logo.png`} width="240" height="65" alt="Carver associates logo" />
+						<img
+							src={`${U}/${F.logo.src}`}
+							width={F.logo.width}
+							height={F.logo.height}
+							alt={F.logo.alt}
+						/>
 						<a
 							class="carver-footer__linkedin"
-							href="https://www.linkedin.com/in/thomas-carver-a6a44ab/"
+							href={F.linkedin.href}
 							target="_blank"
 							rel="noopener noreferrer"
-							aria-label="Thomas Carver on LinkedIn"
+							aria-label={F.linkedin.ariaLabel}
 						>
-							<img src="/carver/icons/linkedin.svg" width="32" height="32" alt="" />
+							<img
+								src={F.linkedin.iconSrc}
+								width={F.linkedin.iconWidth}
+								height={F.linkedin.iconHeight}
+								alt=""
+							/>
 						</a>
 					</div>
 					<div>
 						<ul class="footer-links">
-							<li><a href="/">Home</a></li>
-							<li><a href="https://gocarverllc.com/criminal-lawyer-springfield-mo/">Practice Areas</a></li>
-							<li><a href="https://gocarverllc.com/thomas-carver/">About Us</a></li>
-							<li><a href="https://gocarverllc.com/blog/">Blog</a></li>
-							<li><a href="https://gocarverllc.com/contact/">Contact</a></li>
-							<li><a href="https://gocarverllc.com/privacy-policy/">Privacy Policy</a></li>
+							{F.links.map((link) => (
+								<li>
+									<a href={link.href}>{link.label}</a>
+								</li>
+							))}
 						</ul>
 					</div>
 					<div class="carver-footer__contact">
-						<h4><a href="https://gocarverllc.com/contact/">CONTACT US</a></h4>
+						<h4>
+							<a href={F.contact.headingHref}>{F.contact.heading}</a>
+						</h4>
 						<p>
-							Phone: <a href="tel:4173501172">(417) 350-1172</a><br />
-							Fax: (417) 350-1182
+							{F.contact.phonePrefix}{" "}
+							<a href={`tel:${F.contact.phoneTel}`}>{F.contact.phoneDisplay}</a>
+							<br />
+							{F.contact.faxLine}
 						</p>
-						<p><strong>2974 E Battlefield Rd, Springfield, MO 65804</strong></p>
+						<p set:html={F.contact.addressHtml} />
 					</div>
 					<div>
 						<iframe
-							title="Carver & Associates on Google Maps"
-							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50876.44058656002!2d-93.2768278655253!3d37.157988913798484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87cf63a959048a2f%3A0xeb431c8f474eb409!2sCarver%20%26%20Associates!5e0!3m2!1sen!2sus!4v1765987874693!5m2!1sen!2sus"
+							title={F.map.title}
+							src={F.map.src}
 							width="100%"
 							height="200"
 							style="border:0"
@@ -141,20 +188,18 @@ const META = data.meta;
 				</div>
 				<div class="fineprint">
 					<div class="fineprint__copy">
-						<p>Copyright © 2021–2026 Carver & Associates</p>
-						<p>
-							Use of the website does not constitute legal advice or form an attorney/client relationship.
-						</p>
+						<p>{F.fineprint.copyright}</p>
+						<p>{F.fineprint.disclaimer}</p>
 					</div>
 					<div class="fineprint__mark">
-						<a href="https://goconstellation.com" target="_blank" rel="noopener noreferrer">
+						<a href={F.mark.href} target="_blank" rel="noopener noreferrer">
 							<img
-								src={`${U}/2021/07/Constellation-Marketing-Lawyer-Marketing.png`}
-								srcset={`${U}/2021/07/Constellation-Marketing-Lawyer-Marketing.png 350w, ${U}/2021/07/Constellation-Marketing-Lawyer-Marketing-300x67.png 300w`}
-								sizes="210px"
-								width="210"
-								height="47"
-								alt="Constellation Marketing Lawyer Marketing"
+								src={`${U}/${F.mark.img.src}`}
+								srcset={uploadsSrcset(F.mark.img.srcset)}
+								sizes={F.mark.img.sizes}
+								width={F.mark.img.width}
+								height={F.mark.img.height}
+								alt={F.mark.img.alt}
 								loading="lazy"
 							/>
 						</a>
@@ -163,7 +208,7 @@ const META = data.meta;
 			</footer>
 		</div>
 
-		<a class="admin-link-fixed" href="/_emdash/admin">EmDash admin</a>
+		<a class="admin-link-fixed" href={L.adminLink.href}>{L.adminLink.label}</a>
 
 		<style is:global>
 			.visually-hidden {
@@ -218,6 +263,9 @@ const META = data.meta;
 				var toggle = document.getElementById("carver-nav-toggle");
 				if (!hdr || !nav || !toggle) return;
 
+				var openLabel = toggle.getAttribute("data-nav-open-label") || "Open menu";
+				var closeLabel = toggle.getAttribute("data-nav-close-label") || "Close menu";
+
 				var mq = window.matchMedia("(max-width: 767px)");
 
 				function updateMobileNavOffset() {
@@ -232,7 +280,7 @@ const META = data.meta;
 					if (open) updateMobileNavOffset();
 					hdr.classList.toggle("is-nav-open", open);
 					toggle.setAttribute("aria-expanded", open ? "true" : "false");
-					toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+					toggle.setAttribute("aria-label", open ? closeLabel : openLabel);
 					document.body.style.overflow = open ? "hidden" : "";
 					if (!open) {
 						nav.querySelectorAll("li.is-submenu-open").forEach(function (li) {
