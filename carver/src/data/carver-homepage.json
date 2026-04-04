@@ -1,0 +1,137 @@
+{
+	"meta": {
+		"title": "Award-Winning Criminal Defense Attorney Springfield MO - Carver & Associates Law Firm",
+		"description": "Elite Criminal Defense Attorney Springfield MO. 3X Lawyer of the Year in Springfield, Missouri. 40+ Years Experience > Free Consultation."
+	},
+	"homepage": {
+		"hero": {
+			"taglineHtml": "<p class=\"carver-hero__tagline-inner\">When your<br class=\"carver-hero__br--md\" /> freedom is on<br class=\"carver-hero__br--md\" /> the line, you<br class=\"carver-hero__br--md\" /> need the <strong>BEST</strong><br class=\"carver-hero__br--md\" /> Criminal<br class=\"carver-hero__br--md\" /> Defense.</p>",
+			"ctaHref": "https://gocarverllc.com/contact/",
+			"ctaLabel": "Free consultation"
+		},
+		"trust": {
+			"kicker": "GET AN AWARD-WINNING CRIMINAL DEFENSE",
+			"title": "Criminal Defense Attorney Springfield MO",
+			"badges": [
+				{ "src": "/carver/wp-content/uploads/2021/03/SuperLawyers-1-min.png", "width": 172, "height": 140, "alt": "Super Lawyers" },
+				{ "src": "/carver/wp-content/uploads/2021/02/Best-of-417-min.png", "width": 141, "height": 140, "alt": "Best of 417" },
+				{ "src": "/carver/wp-content/uploads/2021/02/The-Power-30-Missouri-Lawyers-Weekly-1-min.png", "width": 267, "height": 100, "alt": "The Power 30 Missouri Lawyers Weekly" },
+				{
+					"src": "/carver/wp-content/uploads/2021/03/AV-Preminent_Whit.png",
+					"srcset": "/carver/wp-content/uploads/2021/03/AV-Preminent_Whit.png 317w, /carver/wp-content/uploads/2021/03/AV-Preminent_Whit-300x95.png 300w",
+					"sizes": "(max-width: 317px) 100vw, 317px",
+					"width": 317,
+					"height": 100,
+					"alt": "AV Preeminent"
+				}
+			]
+		},
+		"intro": {
+			"eyebrow": "WHEN YOU WANT THE BEST",
+			"title": "Criminal Lawyer Springfield MO",
+			"columns": [
+				{
+					"title": "courtroom focused",
+					"body": "That means our work is centered on trial practice. As trial lawyers, our attorneys’ work is heavily weighted toward complex criminal matters in Missouri state courts and federal courts. Our collaborative approach means you get the power of three instead of only one attorney."
+				},
+				{
+					"title": "Unrivaled Experience",
+					"body": "Thomas Carver has litigated thousands of cases in the state and federal courts of Missouri. He has a reputation for success and gives 110% to every single client. Take advantage of this attorney's experience whose sole focus is to employ it on your behalf."
+				},
+				{
+					"title": "Recognized excellence",
+					"body": "Thomas D. Carver highly regarded by legal peers for his trial expertise, exhaustive preparation, and integrity. This law firm was recognized as a 2017 U.S. News – Best Lawyers Best Law Firm and consistently receives individual awards for excellence in the courtroom."
+				}
+			]
+		},
+		"stats": {
+			"imageSrc": "/carver/wp-content/uploads/2021/02/carver-law-homepage-about-section-min.jpg",
+			"imageSrcset": "/carver/wp-content/uploads/2021/02/carver-law-homepage-about-section-min-480x428.jpg 480w, /carver/wp-content/uploads/2021/02/carver-law-homepage-about-section-min.jpg 640w",
+			"imageSizes": "(max-width: 480px) 480px, 640px",
+			"imageWidth": 640,
+			"imageHeight": 571,
+			"imageAlt": "Courthouse pillars",
+			"ctaHref": "https://gocarverllc.com/contact/",
+			"headline": "Vast Experience, Unmatched Results",
+			"blurbs": [
+				{
+					"title": "50+ Years of Excellence",
+					"desc": "Few can match Thomas Carver’s track record of legal excellence."
+				},
+				{
+					"title": "1,000+ Satisfied Clients",
+					"desc": "Consistently delivering the best possible outcomes for his clients in courts statewide."
+				},
+				{
+					"title": "300+ federal cases",
+					"desc": "One of the most experienced federal litigators in Springfield and the State of Missouri"
+				}
+			]
+		},
+		"vigorous": {
+			"heading": "VIGOROUS, EFFECTIVE CRIMINAL DEFENSE",
+			"lead": "We are here to fight for you from your first court appearance to the final resolution.",
+			"items": [
+				{
+					"h3": "Federal Crimes",
+					"p": "We represent clients charged with offenses like petty theft, simple assault, trespassing, or driving on a suspended license. We aim to help you avoid jail time and keep your record clean."
+				},
+				{
+					"h3": "White Collar Crimes",
+					"p": "We defend clients accused of fraud, embezzlement, tax evasion, and other financial crimes. We carefully review documents, challenge evidence, and fight against federal or state prosecution."
+				},
+				{
+					"h3": "Felonies",
+					"p": "We handle serious charges such as drug trafficking, burglary, assault, and homicide. We develop tailored defense strategies based on the evidence and specific court procedures."
+				},
+				{
+					"h3": "Tax Crimes",
+					"p": "We defend clients accused of tax fraud, filing failure, or other IRS-related charges. We work to resolve disputes while minimizing penalties."
+				},
+				{
+					"h3": "DWI (Driving While Intoxicated)",
+					"p": "We defend clients facing charges of driving while intoxicated (DWI). Our defense strategies include challenging breathalyzer results, field sobriety tests, and the legality of traffic stops."
+				},
+				{
+					"h3": "Misdemeanors",
+					"p": "We represent clients charged with offenses like petty theft, simple assault, trespassing, or driving on a suspended license. We aim to help you avoid jail time and keep your record clean."
+				},
+				{
+					"h3": "Expungement",
+					"p": "We help clients clear eligible criminal records under Missouri law, allowing them to move forward without the burden of a public criminal history."
+				}
+			]
+		},
+		"ctaBand": {
+			"eyebrow": "LET US FIGHT FOR YOU",
+			"title": "Criminal Law Firm in Springfield MO",
+			"cols": [
+				{
+					"title": "Vigorously Fight the prosecution's case",
+					"sub": "We confront the prosecution head on, challenging every part of the case against you."
+				},
+				{
+					"title": "Defend your constutional rights",
+					"sub": "Innocent until proven guilty’ isn’t a slogan — it’s our standard. Let us fight for you."
+				},
+				{
+					"title": "Secure the most optimal outcome for you",
+					"sub": "Dismissal, reduced charges, or avoiding jail time; every decision is focused on protecting you."
+				}
+			]
+		},
+		"contact": {
+			"heading": "CONTACT US"
+		}
+	},
+	"practice_areas": [
+		{ "title": "Tax", "url": "https://gocarverllc.com/tax-attorney-springfield-mo/", "iconSrc": "/carver/wp-content/uploads/2021/02/calculator-icon.png", "iconW": 77, "iconH": 77 },
+		{ "title": "Federal", "url": "https://gocarverllc.com/federal-criminal-lawyer/", "iconSrc": "/carver/wp-content/uploads/2021/02/courthouse-icon.png", "iconW": 77, "iconH": 77 },
+		{ "title": "White Collar", "url": "https://gocarverllc.com/white-collar-crime-lawyer/", "iconSrc": "/carver/wp-content/uploads/2021/02/Business-Law-Icon.png", "iconW": 77, "iconH": 77 },
+		{ "title": "DWI", "url": "https://gocarverllc.com/dwi-lawyer-springfield-mo/", "iconSrc": "/carver/wp-content/uploads/2021/01/vehicular-homicide-icon-min.png", "iconW": 77, "iconH": 77 },
+		{ "title": "Misdemeanors", "url": "https://gocarverllc.com/missouri-misdemeanor/", "iconSrc": "/carver/wp-content/uploads/2021/01/domestic-violence-icon-min.png", "iconW": 77, "iconH": 77 },
+		{ "title": "Felonies", "url": "https://gocarverllc.com/felonies-in-missouri/", "iconSrc": "/carver/wp-content/uploads/2021/02/handcuffs-icon.png", "iconW": 77, "iconH": 77 },
+		{ "title": "Expungement", "url": "https://gocarverllc.com/missouri-expungement/", "iconSrc": "/carver/wp-content/uploads/2021/01/misdemeanor-icon-min.png", "iconW": 77, "iconH": 77 },
+		{ "title": "Drugs", "url": "https://gocarverllc.com/drug-conspiracy/", "iconSrc": "/carver/wp-content/uploads/2021/01/Personal-Injury-Icon.png", "iconW": 67, "iconH": 80 }
+	]
+}

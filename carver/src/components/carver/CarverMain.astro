@@ -1,0 +1,188 @@
+---
+import type { CarverHomeData } from "../../lib/carver-home-load";
+
+interface Props {
+	data: CarverHomeData;
+}
+
+const { data } = Astro.props;
+const h = data.homepage;
+---
+
+<section class="carver-hero" aria-label="Hero" aria-labelledby="hero-trust-kicker">
+	<div class="carver-hero__upper">
+		<div class="carver-inner">
+			<div class="carver-hero__main">
+				<div class="carver-hero__spacer" aria-hidden="true"></div>
+				<div class="carver-hero__copy">
+					<div style="display:contents" set:html={h.hero.taglineHtml} />
+					<a class="carver-btn--hero" href={h.hero.ctaHref}>
+						<i class="fa fa-plus hero-cta-plus" aria-hidden="true"></i>
+						{h.hero.ctaLabel}
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="carver-hero__award-panel">
+		<div class="carver-inner">
+			<p class="carver-hero-trust__kicker" id="hero-trust-kicker">{h.trust.kicker}</p>
+			<h1 class="carver-hero-trust__title">{h.trust.title}</h1>
+			<div class="carver-hero-trust__badges">
+				{
+					h.trust.badges.map((b) =>
+						"srcset" in b && b.srcset ? (
+							<img
+								src={b.src}
+								srcset={b.srcset}
+								sizes={b.sizes}
+								width={b.width}
+								height={b.height}
+								alt={b.alt}
+							/>
+						) : (
+							<img src={b.src} width={b.width} height={b.height} alt={b.alt} />
+						),
+					)
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="carver-intro carver-inner" aria-labelledby="intro-heading">
+	<div class="carver-intro__head">
+		<p class="eyebrow" id="intro-heading">{h.intro.eyebrow}</p>
+		<h2>{h.intro.title}</h2>
+	</div>
+	<div class="carver-intro__cols">
+		{
+			h.intro.columns.map((col) => (
+				<div class="carver-blurb-col">
+					<span class="icon" aria-hidden="true">
+						L
+					</span>
+					<h3>{col.title}</h3>
+					<p>{col.body}</p>
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<section class="carver-stats" aria-label="Experience and results">
+	<div class="carver-stats__row">
+		<div>
+			<div class="carver-stats__img">
+				<img
+					src={h.stats.imageSrc}
+					srcset={h.stats.imageSrcset}
+					sizes={h.stats.imageSizes}
+					width={h.stats.imageWidth}
+					height={h.stats.imageHeight}
+					alt={h.stats.imageAlt}
+				/>
+			</div>
+			<div class="carver-stats__cta">
+				<a class="carver-btn--hero" href={h.stats.ctaHref}>Free Consultation</a>
+			</div>
+		</div>
+		<div class="carver-stats__right">
+			<p class="headline">{h.stats.headline}</p>
+			{
+				h.stats.blurbs.map((bl) => (
+					<div class="carver-stat-blurb">
+						<span class="icon-fa" aria-hidden="true">
+							&#xf067;
+						</span>
+						<div>
+							<h3>{bl.title}</h3>
+							<div class="desc">{bl.desc}</div>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<section class="carver-practice" aria-labelledby="practice-heading">
+	<h2 id="practice-heading">Criminal Defense Practice Areas</h2>
+	<div class="carver-practice__grid">
+		{
+			data.practice_areas.map((pa) => (
+				<a class="carver-pa-card" href={pa.url}>
+					<h4>{pa.title}</h4>
+					<div class="illus">
+						<img
+							src={pa.iconSrc}
+							width={pa.iconW ?? 77}
+							height={pa.iconH ?? 77}
+							alt=""
+						/>
+					</div>
+					<span class="carver-btn--pa">Learn More</span>
+				</a>
+			))
+		}
+	</div>
+</section>
+
+<section class="carver-vigorous" aria-labelledby="vigorous-heading">
+	<div class="carver-vigorous__inner">
+		<h2 id="vigorous-heading">{h.vigorous.heading}</h2>
+		<p class="lead">{h.vigorous.lead}</p>
+		<div class="carver-vigorous__body">
+			{
+				h.vigorous.items.flatMap((item) => [
+					<h3>{item.h3}</h3>,
+					<p>{item.p}</p>,
+				])
+			}
+		</div>
+	</div>
+</section>
+
+<section class="carver-cta-band" aria-labelledby="springfield-heading">
+	<div class="carver-cta-band__inner">
+		<p class="eyebrow">{h.ctaBand.eyebrow}</p>
+		<h2 id="springfield-heading">{h.ctaBand.title}</h2>
+		<div class="carver-cta-cols">
+			{
+				h.ctaBand.cols.map((col) => (
+					<div class="col">
+						<i class="fa fa-arrow-circle-right cta-icon-fa" aria-hidden="true" />
+						<h3>{col.title}</h3>
+						<p class="sub">{col.sub}</p>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<section class="carver-contact" aria-labelledby="contact-form-heading">
+	<h2 id="contact-form-heading">{h.contact.heading}</h2>
+	<form class="carver-form" method="post" action="#" onsubmit="return false;">
+		<div class="carver-form__row carver-form__row--two">
+			<div class="carver-form__field">
+				<label for="cf-name">Name *</label>
+				<input id="cf-name" name="name" type="text" required autocomplete="name" />
+			</div>
+			<div class="carver-form__field">
+				<label for="cf-email">Email *</label>
+				<input id="cf-email" name="email" type="email" required autocomplete="email" />
+			</div>
+		</div>
+		<div class="carver-form__field carver-form__field--full">
+			<label for="cf-phone">Phone *</label>
+			<input id="cf-phone" name="phone" type="tel" required autocomplete="tel" />
+		</div>
+		<div class="carver-form__field carver-form__field--full">
+			<label for="cf-msg">What happened? *</label>
+			<textarea id="cf-msg" name="message" required rows="5"></textarea>
+		</div>
+		<button type="submit">SUBMIT</button>
+	</form>
+</section>

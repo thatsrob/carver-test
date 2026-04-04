@@ -31,9 +31,24 @@ export interface Post {
   bylines?: ContentBylineCredit[];
 }
 
+export interface PracticeArea {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  url: string;
+  icon?: { id: string; src?: string; alt?: string; width?: number; height?: number };
+  sort_order?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
 declare module "emdash" {
   interface EmDashCollections {
     pages: Page;
     posts: Post;
+    practice_areas: PracticeArea;
   }
 }

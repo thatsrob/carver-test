@@ -14,6 +14,8 @@
     "preview:static": "npx --yes serve@14 dist",
     "start": "node ./dist/server/entry.mjs",
     "bootstrap": "emdash init",
+    "seed:build": "node scripts/build-carver-seed.mjs",
+    "seed:apply": "emdash seed seed/seed.json",
     "typecheck": "astro check"
   },
   "dependencies": {

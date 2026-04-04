@@ -1,4 +1,9 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
+import { viteStubEmdashVirtual } from "./scripts/vite-stub-emdash-virtual.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** Cloudflare Pages sets CF_PAGES=1 during build — static site, no EmDash/SQLite (Workers-incompatible). */
 const isCfPages = process.env.CF_PAGES === "1";
@@ -27,4 +32,20 @@ export default defineConfig({
 	adapter,
 	integrations,
 	devToolbar: { enabled: false },
+	vite: {
+		define: {
+			"import.meta.env.CF_PAGES": JSON.stringify(process.env.CF_PAGES ?? ""),
+		},
+		plugins: [isCfPages ? viteStubEmdashVirtual() : null].filter(Boolean),
+		resolve: {
+			alias: isCfPages ?
+				{
+					[path.resolve(__dirname, "src/lib/carver-home-load-cms.ts")]: path.resolve(
+						__dirname,
+						"src/lib/carver-home-load-cms.stub.ts",
+					),
+				}
+			:	{},
+		},
+	},
 });
