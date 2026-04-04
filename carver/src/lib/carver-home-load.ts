@@ -1,4 +1,5 @@
 import carverFallback from "../data/carver-homepage.json";
+import { finalizePracticeIconUrls } from "./carver-practice-icon-url";
 
 export type CarverHomeData = typeof carverFallback;
 
@@ -15,11 +16,15 @@ export async function loadCarverHomepage(): Promise<{
 	data: CarverHomeData;
 	cacheHints: unknown[];
 }> {
+	let out: { data: CarverHomeData; cacheHints: unknown[] };
 	if (import.meta.env.CF_PAGES === "1") {
-		return {
+		out = {
 			data: structuredClone(carverFallback) as CarverHomeData,
 			cacheHints: [],
 		};
+	} else {
+		out = await (await import("./carver-home-load-cms")).loadCarverHomepageFromCms();
 	}
-	return (await import("./carver-home-load-cms")).loadCarverHomepageFromCms();
+	finalizePracticeIconUrls(out.data);
+	return out;
 }

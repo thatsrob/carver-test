@@ -12,6 +12,13 @@ const data = JSON.parse(fs.readFileSync(path.join(root, "src/data/carver-homepag
 
 const base = "https://gocarverllc.com";
 
+/** JSON uses `/carver/wp-content/...` for local `public/`; seed icon URLs must match live WP (`/wp-content/`). */
+function iconAbsoluteForSeed(iconSrc) {
+	if (iconSrc.startsWith("http")) return iconSrc;
+	if (iconSrc.startsWith("/carver/wp-content/")) return `${base}${iconSrc.replace(/^\/carver/, "")}`;
+	return `${base}${iconSrc}`;
+}
+
 const seed = {
 	$schema: "https://emdashcms.com/seed.schema.json",
 	version: "1",
@@ -81,10 +88,7 @@ const seed = {
 				sort_order: i + 1,
 				icon_width: pa.iconW ?? 77,
 				icon_height: pa.iconH ?? 77,
-				icon:
-					pa.iconSrc.startsWith("http") ?
-						pa.iconSrc
-					:	`${base}${pa.iconSrc}`,
+				icon: iconAbsoluteForSeed(pa.iconSrc),
 			},
 		})),
 	},

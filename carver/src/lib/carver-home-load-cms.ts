@@ -66,7 +66,7 @@ export async function loadCarverHomepageFromCms(): Promise<{
 				return {
 					title: String(e.data.title ?? ""),
 					url: String(e.data.url ?? "#"),
-					iconSrc,
+					iconSrc: iconSrc.trim(),
 					iconW: Number.isFinite(iconW) && iconW > 0 ? iconW : 77,
 					iconH: Number.isFinite(iconH) && iconH > 0 ? iconH : 77,
 				};
