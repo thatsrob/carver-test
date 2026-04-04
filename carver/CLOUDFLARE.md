@@ -25,6 +25,10 @@ The repo includes a **root** `package.json` with an npm **workspace** pointing a
 
 Do **not** override `CF_PAGES` in the dashboard; Cloudflare provides it automatically.
 
+### Rollup / `@rollup/rollup-linux-x64-gnu` on CI
+
+npm workspaces can skip Rollup’s Linux optional binary ([npm#4828](https://github.com/npm/cli/issues/4828)). This repo lists `@rollup/rollup-linux-x64-gnu` under **optionalDependencies** (root and `carver/`) so `npm ci` on Cloudflare’s Linux builders installs the native module.
+
 ## Local check (static output)
 
 From the **repo root**:
